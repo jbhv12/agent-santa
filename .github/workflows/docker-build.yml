@@ -24,13 +24,13 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Set Tag
-      id: set_tag
       run: |
         if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
           echo "TAG=latest" >> $GITHUB_ENV
         elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
           echo "TAG=dev" >> $GITHUB_ENV
         fi
+      working-directory: ./app
 
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v2
@@ -39,6 +39,7 @@ jobs:
         file: ./app/Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/agent-santa:${{ env.TAG }}
+      working-directory: ./app
 
     - name: Logout from DockerHub
       run: docker logout
