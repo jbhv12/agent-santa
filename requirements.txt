@@ -1,0 +1,6 @@
+langchain
+openai
+google-search-results
+chainlit
+numexpr
+duckduckgo-search
