@@ -1,0 +1,43 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check Out Repo
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Set Tag
+      run: |
+        if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
+          echo "TAG=latest" >> $GITHUB_ENV
+        elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
+          echo "TAG=dev" >> $GITHUB_ENV
+        fi
+
+    - name: Build and Push Docker Image
+      uses: docker/build-push-action@v2
+      with:
+        context: ./app
+        file: ./app/Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/agent-santa:${{ env.TAG }}
+
+    - name: Logout from DockerHub
+      run: docker logout

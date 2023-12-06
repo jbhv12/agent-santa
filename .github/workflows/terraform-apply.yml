@@ -1,0 +1,38 @@
+name: Apply Terraform on Google Cloud
+
+on:
+  workflow_run:
+    workflows: ["Build and Push Docker Image"]
+    types:
+      - completed
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Change directory to Terraform configuration
+        run: cd terraform/prod
+
+      - name: Set up gcloud CLI
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Apply
+        run: |
+          terraform plan -out=tfplan
+          terraform apply -input=false tfplan
+        env:
+          GOOGLE_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
