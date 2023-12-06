@@ -1,3 +1,5 @@
+import os
+
 from langchain.chains import LLMMathChain
 from langchain.chat_models import ChatOpenAI
 from langchain.tools.ddg_search import DuckDuckGoSearchRun
@@ -47,10 +49,22 @@ Behavior Guidelines for the AI:
         "extra_prompt_messages": [MessagesPlaceholder(variable_name="memory")],
         "system_message": SystemMessage(content=SYSTEM_PROMPT),
     }
-    message_history = RedisChatMessageHistory(url="redis://localhost:6379/0", ttl=600, session_id=session_id)
-    memory = ConversationBufferMemory(memory_key="memory", return_messages=True,
-                                      chat_memory=message_history
-                                      )
+
+    redis_host = os.environ.get('REDIS_HOST', None)
+    redis_port = os.environ.get('REDIS_PORT', '6379')
+    redis_db = os.environ.get('REDIS_DB', '0')
+    try:
+        redis_ttl = int(os.environ.get('REDIS_TTL', 600))
+    except:
+        redis_ttl = 600
+
+    if redis_host is not None:
+        message_history = RedisChatMessageHistory(url=f"redis://{redis_host}:{redis_port}/{redis_db}", ttl=redis_ttl, session_id=session_id)
+        memory = ConversationBufferMemory(memory_key="memory", return_messages=True, chat_memory=message_history)
+    else:
+        memory = ConversationBufferMemory(memory_key="memory", return_messages=True)
+
+
     agent = initialize_agent(
         tools,
         llm,
