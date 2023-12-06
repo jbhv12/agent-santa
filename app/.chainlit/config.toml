@@ -25,7 +25,7 @@ unsafe_allow_html = false
 latex = false
 
 # Authorize users to upload files with messages
-multi_modal = true
+multi_modal = false
 
 # Allows user to use speech to text
 [features.speech_to_text]
@@ -35,7 +35,7 @@ multi_modal = true
 
 [UI]
 # Name of the app and chatbot.
-name = "Chatbot"
+name = "Red Jingles"
 
 # Show the readme while the conversation is empty.
 show_readme_as_default = true
@@ -53,7 +53,7 @@ default_expand_messages = true
 hide_cot = false
 
 # Link to your github repo. This will add a github button in the UI's header.
-# github = ""
+ github = "https://github.com/jbhv12/agent-santa"
 
 # Specify a CSS file that can be used to customize the user interface.
 # The CSS file can be served from the public directory or via an external link.

@@ -2,3 +2,4 @@
 /infra/prod/.terraform.lock.hcl
 /app/.env
 ./.idea
+./app/.env
