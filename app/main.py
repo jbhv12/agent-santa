@@ -1,15 +1,13 @@
 import os
 
+from chainlit.client.base import ConversationDict
 from langchain.agents import AgentExecutor
 import chainlit as cl
 from chainlit import config as clconfig
 from typing import Optional
 from agent import get_agent
 from auth_utils import authenticate_user
-from chainlit.client.cloud import ChainlitCloudClient
-
-from chainlit.types import Pagination, ConversationFilter
-
+from welcome_msg_helper import get_santa_welcome_msg
 @cl.author_rename
 def rename(orig_author: str):
     rename_dict = {"LLMMathChain": "Albert Einstein", "Chatbot": "Santa🎅", "Red Jingles": "Santa🎅"}
@@ -35,39 +33,36 @@ def auth_callback(username: str, password: str) -> Optional[cl.AppUser]:
 async def on_chat_start():
     clconfig.features.prompt_playground = False
     app_user = cl.user_session.get("user")
-    cl.user_session.set("agent", get_agent(app_user.username))
-
-    # chainlit_client = ChainlitCloudClient(api_key=os.environ.get('CHAINLIT_API_KEY', ''))
-    # pagination = Pagination(first=10)
-    # filter = ConversationFilter()
-    # conversations = await chainlit_client.get_conversations(pagination, filter)
-    # for conversation in conversations.data:
-    #     pass
-    #     # print(conversation)
-    #     # print(f"Conversation ID: {conversation['id']}")
-    #     # print(f"Created At: {conversation['createdAt']}")
-
-    # WELCOME_MSG="""Ho ho ho! Merry Christmas, my dear friend! I'm delighted to see you here. How can Santa Claus bring some holiday cheer to your day?""" # todo randomize
-    # await cl.Message(content=WELCOME_MSG, ).send()
-    res = await cl.AskUserMessage(content="What is your name?", timeout=10).send()
-
-    # res = await cl.AskActionMessage(
-    #     content="Pick an action!",
-    #     actions=[
-    #         cl.Action(name="continue", value="continue", label="✅ Continue"),
-    #         cl.Action(name="cancel", value="cancel", label="❌ Cancel")
-    #     ]
-    # ).send()
+    cl.user_session.set("agent", get_agent(f"{app_user.username}:{cl.user_session.get('id')}"))
+    await cl.Message(content=get_santa_welcome_msg(), ).send()
 
 
 @cl.on_message
 async def main(message: cl.Message):
     agent = cl.user_session.get("agent")  # type: AgentExecutor
+    print(agent)
     res = await cl.make_async(agent)({"input": message.content},
                                      callbacks=[cl.LangchainCallbackHandler(stream_final_answer=True)])
     await cl.Message(content=res['output']).send()
 
 
+@cl.on_chat_resume
+async def on_chat_resume(conversation: ConversationDict):
+    app_user = cl.user_session.get("user")
+    agent = get_agent(f"{app_user.username}:{conversation['id']}")
+    cl.user_session.set("agent", agent)
+
+    memory = agent.memory
+    root_messages = [m for m in conversation["messages"] if m["parentId"] == None]
+    for message in root_messages:
+        if message["authorIsUser"]:
+            memory.chat_memory.add_user_message(message["content"])
+        else:
+            memory.chat_memory.add_ai_message(message["content"])
+
+
 if __name__ == "__main__":
-    get_agent("temp-session")
+    a = get_agent("temp-session")
+    a.agent.dict()
+
 
