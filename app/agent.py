@@ -1,26 +1,13 @@
-from apikey import apikey
-import os
-
-from langchain.agents import AgentType, Tool, initialize_agent
 from langchain.chains import LLMMathChain
 from langchain.chat_models import ChatOpenAI
-from langchain.agents import AgentExecutor
-
-import chainlit as cl
-from chainlit import config as clconfig
-
-from langchain.memory import ConversationBufferMemory
+from langchain.tools.ddg_search import DuckDuckGoSearchRun
+from langchain.agents import AgentType, Tool, initialize_agent
 from langchain.prompts import MessagesPlaceholder
-
 from langchain_core.messages import (
     BaseMessage,
     SystemMessage,
 )
-from langchain.tools import DuckDuckGoSearchRun
-from typing import Optional
-
-os.environ['OPENAI_API_KEY'] = apikey
-os.environ['CHAINLIT_AUTH_SECRET'] = ',-MXH0^a5Wtwd-ivxmVn>4>e,J*40l+I:07el7+vcqL,TdyrQe>?E?O.WRk/raAn'
+from langchain.memory import ConversationBufferMemory
 
 
 def get_agent():
@@ -52,7 +39,10 @@ def get_agent():
         "extra_prompt_messages": [MessagesPlaceholder(variable_name="memory")],
         "system_message": SystemMessage(content="You are a santa"), #todo
     }
-    memory = ConversationBufferMemory(memory_key="memory", return_messages=True)
+    # message_history = RedisChatMessageHistory(url="redis://localhost:6379/0", ttl=600, session_id="my-session")
+    memory = ConversationBufferMemory(memory_key="memory", return_messages=True,
+                                      # chat_memory=message_history
+                                      )
     agent = initialize_agent(
         tools,
         llm,
@@ -62,36 +52,6 @@ def get_agent():
         memory=memory,
     )
     agent_executor = None
+    # agent.run(input="How many people live in canada?")
     return agent, agent_executor
 
-
-@cl.password_auth_callback
-def auth_callback(username: str, password: str) -> Optional[cl.AppUser]:
-    # Fetch the user matching username from your database
-    # and compare the hashed password with the value stored in the database
-    if (username, password) == ("admin", "admin"):
-        return cl.AppUser(username="admin", role="ADMIN", provider="credentials")
-    else:
-        return None
-
-
-@cl.on_chat_start
-async def on_chat_start():
-    agent, agent_executor = get_agent()
-    cl.user_session.set("agent", agent)
-    await cl.Message(content=f"ho ho ", ).send() # todo
-    clconfig.features.prompt_playground = False
-
-
-@cl.on_message
-async def main(message: cl.Message):
-    agent = cl.user_session.get("agent")  # type: AgentExecutor
-    res = await cl.make_async(agent)({"input": message.content},
-                                     callbacks=[cl.LangchainCallbackHandler(stream_final_answer=True)])
-    await cl.Message(content=res['output']).send()
-
-
-if __name__ == "__main__":
-    # get_agent()
-    search = DuckDuckGoSearchRun()
-    search.run("Obama's first name?")
