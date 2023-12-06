@@ -1,10 +1,10 @@
-FROM python:3.11.6-bookworm
+FROM python:3.11.6-slim
 
 WORKDIR /app
 
 # First, copy only the requirements.txt and install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements-frozen.txt .
+RUN pip install --no-cache-dir -r requirements-frozen.txt
 
 # Then copy the rest of your application files
 COPY . /app/
