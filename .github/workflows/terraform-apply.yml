@@ -25,8 +25,11 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
+      - name: Create Service Account Key File
+        run: echo '${{ secrets.GCP_SA_KEY }}' > gcp-key.json
+
       - name: Activate Google Cloud service account
-        run: gcloud auth activate-service-account --key-file=${{ secrets.GCP_SA_KEY }}
+        run: gcloud auth activate-service-account --key-file=gcp-key.json
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v1
