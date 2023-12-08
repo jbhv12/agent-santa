@@ -60,7 +60,7 @@ jobs:
           export TF_VAR_openai_api_key="${{ secrets.REDIS_DB }}"
           export TF_VAR_openai_api_key="${{ secrets.REDIS_TTL }}"
 
-          terraform plan
+          terraform plan -input=false
 #          terraform plan -out=tfplan
 #          terraform apply -input=false tfplan
         env:
