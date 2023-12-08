@@ -56,9 +56,9 @@ jobs:
           export TF_VAR_chainlit_auth_secret="${{ secrets.CHAINLIT_AUTH_SECRET }}"
           export TF_VAR_chainlit_api_key="${{ secrets.CHAINLIT_API_KEY }}"
           export TF_VAR_openai_api_key="${{ secrets.OPENAI_API_KEY }}"
-          export TF_VAR_openai_api_key="${{ secrets.REDIS_PORT }}"
-          export TF_VAR_openai_api_key="${{ secrets.REDIS_DB }}"
-          export TF_VAR_openai_api_key="${{ secrets.REDIS_TTL }}"
+          export TF_VAR_redis_port="${{ secrets.REDIS_PORT }}"
+          export TF_VAR_redis_db="${{ secrets.REDIS_DB }}"
+          export TF_VAR_redis_ttl="${{ secrets.REDIS_TTL }}"
 
           terraform plan -input=false
 #          terraform plan -out=tfplan
