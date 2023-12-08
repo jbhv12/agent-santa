@@ -34,6 +34,7 @@ variable "openai_api_key" {
 variable "redis_port" {
     type = string
 }
+
 variable "redis_db" {
     type = string
 }
