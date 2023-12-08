@@ -1,10 +1,10 @@
 name: Build and Push Docker Image
 
-on:
-  push:
-    branches:
-      - master
-      - dev
+#on: #todo revert
+#  push:
+#    branches:
+#      - master
+#      - dev
 
 jobs:
   build:

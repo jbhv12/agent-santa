@@ -1,10 +1,15 @@
 name: Apply Terraform on Google Cloud
 
+#on: #todo revert
+#  workflow_run:
+#    workflows: ["Build and Push Docker Image"]
+#    types:
+#      - completed
 on:
-  workflow_run:
-    workflows: ["Build and Push Docker Image"]
-    types:
-      - completed
+  push:
+    branches:
+      - master
+      - dev
 
 jobs:
   terraform:
@@ -15,7 +20,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Change directory to Terraform configuration
-        run: cd terraform/prod
+        run: cd infra/prod
 
       - name: Set up gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.0
