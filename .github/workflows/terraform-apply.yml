@@ -48,7 +48,6 @@ jobs:
         run: |
           export TF_VAR_env="prod"
           export TF_VAR_gcp_project_id="${{ secrets.GCP_PROJECT_ID }}"
-          export TF_VAR_gcp_public_resources_bucket="jbhv12-personal-public"
           export TF_VAR_aws_cognito_user_pool_id="${{ secrets.COGNITO_USER_POOL_ID }}"
           export TF_VAR_aws_cognito_client_id="${{ secrets.COGNITO_CLIENT_ID }}"
           export TF_VAR_aws_cognito_domain="${{ secrets.COGNITO_DOMAIN }}"
@@ -57,6 +56,10 @@ jobs:
           export TF_VAR_chainlit_auth_secret="${{ secrets.CHAINLIT_AUTH_SECRET }}"
           export TF_VAR_chainlit_api_key="${{ secrets.CHAINLIT_API_KEY }}"
           export TF_VAR_openai_api_key="${{ secrets.OPENAI_API_KEY }}"
+          export TF_VAR_openai_api_key="${{ secrets.REDIS_PORT }}"
+          export TF_VAR_openai_api_key="${{ secrets.REDIS_DB }}"
+          export TF_VAR_openai_api_key="${{ secrets.REDIS_TTL }}"
+
           terraform plan
 #          terraform plan -out=tfplan
 #          terraform apply -input=false tfplan
