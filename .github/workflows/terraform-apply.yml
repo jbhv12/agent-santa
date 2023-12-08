@@ -19,13 +19,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-#      - name: Change directory to Terraform configuration
-#        run: cd infra/prod
-
       - name: Set up gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.0
         with:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Activate Google Cloud service account
+        run: gcloud auth activate-service-account --key-file=${{ secrets.GCP_SA_KEY }}
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v1
