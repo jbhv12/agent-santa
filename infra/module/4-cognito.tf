@@ -63,12 +63,12 @@ resource "aws_cognito_user_pool_client" "client" {
 }
 
 resource "aws_cognito_user_pool_domain" "domain" {
-  domain       = "redjingles"
+  domain       = "redjingles1112"
   user_pool_id = aws_cognito_user_pool.cognito_pool.id
 }
 
 resource "aws_cognito_user_pool_ui_customization" "ui_customization" {
   css        = ".label-customizable {font-weight: 400;}"
   image_file = filebase64("logo.png")
-  user_pool_id = aws_cognito_user_pool_domain.domain.user_pool_id
+  user_pool_id = aws_cognito_user_pool.cognito_pool.id
 }

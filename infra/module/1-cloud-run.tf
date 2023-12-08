@@ -71,9 +71,6 @@ resource "google_cloud_run_service" "default" {
           }
         }
       }
-
-      # Set the maximum number of instances to 1 for cost saving
-#      container_concurrency = 80  # Adjust as needed for your application
     }
   }
 
