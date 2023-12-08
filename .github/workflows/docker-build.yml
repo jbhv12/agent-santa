@@ -37,7 +37,7 @@ jobs:
         context: ./app
         file: ./app/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/agent-santa:${{ env.TAG }}
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/red-jingles:${{ env.TAG }}
 
     - name: Logout from DockerHub
       run: docker logout
