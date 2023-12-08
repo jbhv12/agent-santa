@@ -62,9 +62,8 @@ jobs:
           export TF_VAR_redis_db="${{ secrets.REDIS_DB }}"
           export TF_VAR_redis_ttl="${{ secrets.REDIS_TTL }}"
 
-          terraform plan -input=false
-#          terraform plan -out=tfplan
-#          terraform apply -input=false tfplan
+          terraform plan -input=false -out=tfplan
+          terraform apply -input=false tfplan
         env:
           GOOGLE_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
