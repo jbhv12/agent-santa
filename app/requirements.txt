@@ -6,3 +6,7 @@ numexpr
 duckduckgo-search
 boto3
 redis
+presidio-analyzer
+presidio-anonymizer
+spacy
+
