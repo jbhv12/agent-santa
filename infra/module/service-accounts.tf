@@ -11,3 +11,8 @@ resource "google_project_iam_member" "terraform_account_editor" {
   role    = "roles/editor"
   member  = "serviceAccount:${google_service_account.terraform_account.email}"
 }
+resource "google_project_iam_member" "terraform_account_run_admin" {
+  project = "personal-334605"
+  role    = "roles/run.admin"
+  member  = "serviceAccount:${google_service_account.terraform_account.email}"
+}

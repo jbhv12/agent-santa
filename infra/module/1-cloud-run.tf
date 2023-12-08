@@ -1,3 +1,6 @@
+locals {
+  timestamp = timestamp()
+}
 resource "google_cloud_run_service" "default" {
   name     = "red-jingles-service"
   location = "us-east1"
@@ -8,6 +11,10 @@ resource "google_cloud_run_service" "default" {
         image = "docker.io/jbhv12/red-jingles:latest"
         ports {
           container_port = 1225
+        }
+        env {
+          name  = "LAST_UPDATED"
+          value = local.timestamp
         }
         env {
           name = "CHAINLIT_API_KEY"
@@ -33,7 +40,7 @@ resource "google_cloud_run_service" "default" {
           name  = "COGNITO_CLIENT_SECRET"
           value = var.aws_cognito_client_secret
         }
-        env { # todo dont pass or pass real val
+        env { # todo pass url of cloud run service
           name  = "COGNITO_REDIRECT_URI"
           value = var.aws_cognito_redirect_url
         }
