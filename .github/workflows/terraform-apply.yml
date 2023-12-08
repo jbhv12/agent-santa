@@ -19,8 +19,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Change directory to Terraform configuration
-        run: cd infra/prod
+#      - name: Change directory to Terraform configuration
+#        run: cd infra/prod
 
       - name: Set up gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.0
@@ -33,9 +33,11 @@ jobs:
           terraform_version: 1.0.0
 
       - name: Terraform Init
+        working-directory: infra/prod
         run: terraform init
 
       - name: Terraform Apply
+        working-directory: infra/prod
         run: |
           terraform plan -out=tfplan
           terraform apply -input=false tfplan
