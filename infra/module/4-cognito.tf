@@ -54,11 +54,11 @@ resource "aws_cognito_user_pool_client" "client" {
   allowed_oauth_flows                  = ["code", "implicit"]
   allowed_oauth_scopes                 = ["phone", "email", "openid", "profile", "aws.cognito.signin.user.admin"]
 
-  callback_urls = ["http://localhost:1225/auth/oauth/cognito/callback", "http://localhost:8001/auth/callback", "http://localhost:1225/login-callback"]
+  callback_urls = ["https://red-jingles-service-m4nvd7pkta-ue.a.run.app/auth/oauth/cognito/callback", "http://localhost:1225/auth/oauth/cognito/callback", "http://localhost:8001/auth/callback", "http://localhost:1225/login-callback"]
   logout_urls   = ["http://localhost:1225/logout"]
 
   supported_identity_providers = ["COGNITO"]
-  default_redirect_uri = "http://localhost:1225/auth/oauth/cognito/callback"
+  default_redirect_uri = "https://red-jingles-service-m4nvd7pkta-ue.a.run.app/auth/oauth/cognito/callback"
   prevent_user_existence_errors = "ENABLED"
 }
 
