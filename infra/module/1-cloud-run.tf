@@ -27,13 +27,13 @@ resource "google_cloud_run_service" "default" {
         }
         env {
           name  = "COGNITO_DOMAIN"
-          value = var.cog
+          value = var.aws_cognito_domain
         }
         env {
           name  = "COGNITO_CLIENT_SECRET"
           value = var.aws_cognito_client_secret
         }
-        env {
+        env { # todo dont pass or pass real val
           name  = "COGNITO_REDIRECT_URI"
           value = var.aws_cognito_redirect_url
         }
