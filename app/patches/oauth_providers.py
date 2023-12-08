@@ -52,6 +52,7 @@ class CognitoOAuthProvider(OAuthProvider):
             "code": code,
             "redirect_uri": self.redirect_uri
         }
+        print(payload) # todo remove
         async with httpx.AsyncClient() as client:
             response = await client.post(self.token_url, data=payload)
             response.raise_for_status()
