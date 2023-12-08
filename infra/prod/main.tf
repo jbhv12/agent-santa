@@ -14,4 +14,8 @@ module "capstone" {
   aws_cognito_redirect_url = var.aws_cognito_redirect_url
 
   openai_api_key = var.openai_api_key
+
+  redis_port = var.redis_port
+  redis_db = var.redis_db
+  redis_ttl = var.redis_ttl
 }

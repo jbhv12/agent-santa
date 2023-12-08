@@ -34,3 +34,12 @@ variable "chainlit_api_key" {
 variable "openai_api_key" {
     type = string
 }
+variable "redis_port" {
+    type = string
+}
+variable "redis_db" {
+    type = string
+}
+variable "redis_ttl" {
+    type = string
+}
