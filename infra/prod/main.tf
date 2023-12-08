@@ -6,9 +6,12 @@ module "capstone" {
 
   chainlit_auth_secret = var.chainlit_auth_secret
   chainlit_api_key = var.chainlit_api_key
+
   aws_cognito_user_pool_id = var.aws_cognito_user_pool_id
   aws_cognito_client_id = var.aws_cognito_client_id
+  aws_cognito_domain = var.aws_cognito_domain
+  aws_cognito_client_secret = var.aws_cognito_client_secret
+  aws_cognito_redirect_url = var.aws_cognito_redirect_url
+
   openai_api_key = var.openai_api_key
-  aws_access_key_id = var.aws_access_key_id
-  aws_secret_access_key = var.aws_secret_access_key
 }
