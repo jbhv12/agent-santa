@@ -40,7 +40,7 @@ resource "google_cloud_run_service" "default" {
           name  = "COGNITO_CLIENT_SECRET"
           value = var.aws_cognito_client_secret
         }
-        env { # todo pass url of cloud run service
+        env {
           name  = "COGNITO_REDIRECT_URI"
           value = var.aws_cognito_redirect_url
         }
@@ -64,10 +64,9 @@ resource "google_cloud_run_service" "default" {
           name  = "REDIS_TTL"
           value = var.redis_ttl
         }
-        # Optional: Adjust CPU and memory allocations for cost optimization
         resources {
           limits = {
-            cpu    = "1"  # 0.5 vCPUs, adjust as needed
+            cpu    = "1"
             memory = "2Gi" # 256 MB, adjust as needed
           }
         }

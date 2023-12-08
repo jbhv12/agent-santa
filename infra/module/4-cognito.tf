@@ -63,7 +63,7 @@ resource "aws_cognito_user_pool_client" "client" {
 }
 
 resource "aws_cognito_user_pool_domain" "domain" {
-  domain       = "redjingles1112" # Replace with your desired domain prefix
+  domain       = "redjingles"
   user_pool_id = aws_cognito_user_pool.cognito_pool.id
 }
 
