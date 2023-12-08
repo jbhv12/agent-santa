@@ -3,11 +3,11 @@
 #  service = "vpcaccess.googleapis.com"
 #}
 #
-#module "test-vpc-module" {
+#module "vpc" {
 #  source       = "terraform-google-modules/network/google"
 #  version      = "~> 8.0"
 #  project_id   = var.gcp_project_id # Replace this with your project ID in quotes
-#  network_name = "my-serverless-network"
+#  network_name = "serverless-network"
 #  mtu          = 1460
 #
 #  subnets = [
@@ -27,7 +27,7 @@
 #  vpc_connectors = [{
 #    name           = "central-serverless"
 #    region         = "us-central1"  # Consider changing the region based on cost
-#    subnet_name    = module.test-vpc-module.subnets["us-central1/serverless-subnet"].name
+#    subnet_name    = module.vpc.subnets["us-central1/serverless-subnet"].name
 #    machine_type   = "e2-micro"  # Downsized machine type
 #    min_instances  = 2  # Adjusted based on usage
 #    max_instances  = 5  # Adjusted based on usage

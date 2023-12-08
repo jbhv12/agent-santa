@@ -1,45 +1,41 @@
 #resource "google_cloud_run_service" "default" {
-#  name     = "agent-santa-service"
+#  name     = "red-jingles-service"
 #  location = "us-east1"
 #
 #  template {
 #    spec {
 #      containers {
-#        image = "docker.io/jbhv12/agent-santa:latest"
+#        image = "docker.io/jbhv12/red-jingles:latest"
 #        ports {
 #          container_port = 1225
+#        }
+#        env {
+#          name = "CHAINLIT_API_KEY"
+#          value = var.chainlit_api_key
 #        }
 #        env {
 #          name  = "CHAINLIT_AUTH_SECRET"
 #          value = var.chainlit_auth_secret
 #        }
 #        env {
-#          name  = "AWS_COGNITO_USER_POOL_ID"
-#          value = aws_cognito_user_pool.my_user_pool.id
+#          name  = "COGNITO_USER_POOL_ID"
+#          value = var.aws_cognito_user_pool_id
 #        }
 #        env {
-#          name  = "AWS_COGNITO_CLIENT_ID"
-#          value = aws_cognito_user_pool_client.client.id
-#        }
-#        env {
-#          name  = "AWS_ACCESS_KEY_ID"
-#          value = var.aws_access_key_id
-#        }
-#        env {
-#          name  = "AWS_SECRET_ACCESS_KEY"
-#          value = var.aws_secret_access_key
+#          name  = "COGNITO_CLIENT_ID"
+#          value = var.aws_cognito_client_id
 #        }
 #        env {
 #          name  = "OPENAI_API_KEY"
 #          value = var.openai_api_key
 #        }
 #        # Optional: Adjust CPU and memory allocations for cost optimization
-##        resources {
-##          limits = {
-##            cpu    = "500m"  # 0.5 vCPUs, adjust as needed
-##            memory = "256Mi" # 256 MB, adjust as needed
-##          }
-##        }
+#        resources {
+#          limits = {
+#            cpu    = "1"  # 0.5 vCPUs, adjust as needed
+#            memory = "2Gi" # 256 MB, adjust as needed
+#          }
+#        }
 #      }
 #
 #      # Set the maximum number of instances to 1 for cost saving
@@ -73,6 +69,20 @@
 #  }
 #  EOF
 #}
+#output "service_url" {
+#  value = google_cloud_run_service.default.status[0].url
+#}
 #
 #
+#
+#resource "google_cloud_run_domain_mapping" "default" {
+#  location = google_cloud_run_service.default.location
+#  name     = "redjingles.chrismac.org"
+#  metadata {
+#    namespace = var.gcp_project_id
+#  }
+#  spec {
+#    route_name = google_cloud_run_service.default.name
+#  }
+#}
 #

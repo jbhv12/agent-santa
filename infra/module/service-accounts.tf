@@ -1,5 +1,4 @@
-## TODO remove from state and then remove code
-
+## This service account is used for automation in Github Actions, we need to fetch key from console and set Github secret manually
 
 resource "google_service_account" "terraform_account" {
   account_id   = "terraform-account"

@@ -1,5 +1,5 @@
 resource "google_storage_bucket" "public_bucket" {
-  name     = "your_bucket_name"
+  name     = var.gcp_public_resources_bucket
   location = "US"
 
   website {
