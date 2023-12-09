@@ -1,5 +1,7 @@
 import os
+import random
 
+import redis
 from langchain.chains import LLMMathChain
 from langchain.chat_models import ChatOpenAI
 from langchain.tools.ddg_search import DuckDuckGoSearchRun
@@ -8,43 +10,24 @@ from langchain.prompts import MessagesPlaceholder
 from langchain_core.messages import SystemMessage
 from langchain.memory import ConversationBufferMemory, RedisChatMessageHistory
 from constants import *
-import random
 
-DEFAULT_PROMPT=r"""You are now chatting with Santa Claus, the jolly man from the North Pole known for spreading Christmas cheer and love. You love talking about Christmas, the joy of giving, and the magic of the holiday season. Always stay in character as Santa, being joyful, cheerful, and fun. When you don"t know the answer to a question, respond in character by saying something like, "Ho ho ho! That"s a wonderful question, but even Santa doesn"t know everything!" Always keep the responses in the spirit of Christmas, positive, and family-friendly.
-Behavior Guidelines for the AI:
-1. Maintain Santa"s cheerful and jovial tone in all interactions.
-2. Use Christmas-themed language and references in responses.
-3. When unsure about an answer, respond in a Santa-like way, admitting lack of knowledge without breaking character.
-4. Keep all interactions family-friendly, positive, and in the spirit of the holiday season.
-5. Avoid making up information or "hallucinating". Be honest and straightforward in a manner fitting Santa"s character.
-"""
 
 def get_agent(session_id, personality="Santa"):
-
     llm = ChatOpenAI(streaming=True, temperature=0, model="gpt-3.5-turbo-0613")
-    search = DuckDuckGoSearchRun()  # SerpAPIWrapper()
+    search = DuckDuckGoSearchRun()
     llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=True)
-    # db = SQLDatabase.from_uri("sqlite:///../../../../../notebooks/Chinook.db")
-    # db_chain = SQLDatabaseChain.from_llm(llm, db, verbose=True)
-
-
-
     tools = [
         Tool(
             name="Search",
             func=search.run,
-            description="useful for when you need to answer questions about current events. You should ask targeted questions",
+            description="useful for when you need to answer questions about current events. You should ask targeted "
+                        "questions",
         ),
         Tool(
             name="Calculator",
             func=llm_math_chain.run,
             description="useful for when you need to answer questions about math",
-        ),
-        # Tool(
-        #     name="FooBar-DB",
-        #     func=db_chain.run,
-        #     description="useful for when you need to answer questions about FooBar. Input should be in the form of a question containing full context",
-        # ),
+        )
     ]
     system_prompt = DEFAULT_PROMPT
     for character in characters:
@@ -56,18 +39,18 @@ def get_agent(session_id, personality="Santa"):
         "system_message": SystemMessage(content=system_prompt),
     }
 
-    redis_host = os.environ.get("REDIS_HOST", None)
-    redis_port = os.environ.get("REDIS_PORT", "6379")
-    redis_db = os.environ.get("REDIS_DB", "0")
     try:
+        redis_host = os.environ.get("REDIS_HOST", None)
+        redis_port = os.environ.get("REDIS_PORT", "6379")
+        redis_db = os.environ.get("REDIS_DB", "0")
         redis_ttl = int(os.environ.get("REDIS_TTL", 600))
-    except:
-        redis_ttl = 600
-
-    if redis_host is not None:
-        message_history = RedisChatMessageHistory(url=f"redis://{redis_host}:{redis_port}/{redis_db}", ttl=redis_ttl, session_id=session_id)
+        r = redis.Redis(host=redis_host, port=redis_port, db=redis_db)
+        if not r.ping(): raise Exception()
+        message_history = RedisChatMessageHistory(url=f"redis://{redis_host}:{redis_port}/{redis_db}", ttl=redis_ttl,
+                                                  session_id=session_id)
         memory = ConversationBufferMemory(memory_key="memory", return_messages=True, chat_memory=message_history)
-    else:
+    except Exception as e: # fall back to in mem memory
+        print(f"An error occurred: {e}")
         memory = ConversationBufferMemory(memory_key="memory", return_messages=True)
 
     return initialize_agent(

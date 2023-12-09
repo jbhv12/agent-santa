@@ -6,7 +6,6 @@ WORKDIR /app
 # First, copy only the requirements.txt and install dependencies, to cache them in subsequent builds
 COPY requirements-frozen.txt .
 RUN pip install --no-cache-dir -r requirements-frozen.txt
-RUN python -m spacy download en_core_web_lg
 
 # Then copy the rest of your application files
 COPY . /app/
@@ -16,6 +15,6 @@ COPY .chainlit /app/.chainlit
 COPY patches/oauth_providers.py /usr/local/lib/python3.11/site-packages/chainlit/
 COPY patches/base.py /usr/local/lib/python3.11/site-packages/chainlit/client/
 
-EXPOSE 1225
+EXPOSE 8080
 
-CMD ["chainlit", "run", "./main.py", "--port", "1225"]
+CMD ["chainlit", "run", "./main.py", "--port", "8080"]
