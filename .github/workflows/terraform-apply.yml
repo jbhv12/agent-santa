@@ -27,6 +27,15 @@ jobs:
 
       - name: Terraform Init
         working-directory: infra/prod
+        run: terraform init
+        env:
+          GOOGLE_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Terraform Refresh
+        working-directory: infra/prod
         run: |
           export TF_VAR_env="prod"
           export TF_VAR_gcp_project_id="${{ secrets.GCP_PROJECT_ID }}"
@@ -41,16 +50,7 @@ jobs:
           export TF_VAR_redis_port="${{ secrets.REDIS_PORT }}"
           export TF_VAR_redis_db="${{ secrets.REDIS_DB }}"
           export TF_VAR_redis_ttl="${{ secrets.REDIS_TTL }}"
-          terraform init
-        env:
-          GOOGLE_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-          GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      - name: Terraform Refresh
-        working-directory: infra/prod
-        run: terraform refresh -input=false
+          terraform refresh -input=false
         env:
           GOOGLE_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
@@ -69,19 +69,19 @@ jobs:
       - name: Terraform Apply
         working-directory: infra/prod
         run: |
-#          export TF_VAR_env="prod"
-#          export TF_VAR_gcp_project_id="${{ secrets.GCP_PROJECT_ID }}"
-#          export TF_VAR_aws_cognito_user_pool_id="${{ secrets.COGNITO_USER_POOL_ID }}"
-#          export TF_VAR_aws_cognito_client_id="${{ secrets.COGNITO_CLIENT_ID }}"
-#          export TF_VAR_aws_cognito_domain="${{ secrets.COGNITO_DOMAIN }}"
-#          export TF_VAR_aws_cognito_client_secret="${{ secrets.COGNITO_CLIENT_SECRET }}"
-#          export TF_VAR_aws_cognito_redirect_url="${{ secrets.COGNITO_REDIRECT_URI }}"
-#          export TF_VAR_chainlit_auth_secret="${{ secrets.CHAINLIT_AUTH_SECRET }}"
-#          export TF_VAR_chainlit_api_key="${{ secrets.CHAINLIT_API_KEY }}"
-#          export TF_VAR_openai_api_key="${{ secrets.OPENAI_API_KEY }}"
-#          export TF_VAR_redis_port="${{ secrets.REDIS_PORT }}"
-#          export TF_VAR_redis_db="${{ secrets.REDIS_DB }}"
-#          export TF_VAR_redis_ttl="${{ secrets.REDIS_TTL }}"
+          export TF_VAR_env="prod"
+          export TF_VAR_gcp_project_id="${{ secrets.GCP_PROJECT_ID }}"
+          export TF_VAR_aws_cognito_user_pool_id="${{ secrets.COGNITO_USER_POOL_ID }}"
+          export TF_VAR_aws_cognito_client_id="${{ secrets.COGNITO_CLIENT_ID }}"
+          export TF_VAR_aws_cognito_domain="${{ secrets.COGNITO_DOMAIN }}"
+          export TF_VAR_aws_cognito_client_secret="${{ secrets.COGNITO_CLIENT_SECRET }}"
+          export TF_VAR_aws_cognito_redirect_url="${{ secrets.COGNITO_REDIRECT_URI }}"
+          export TF_VAR_chainlit_auth_secret="${{ secrets.CHAINLIT_AUTH_SECRET }}"
+          export TF_VAR_chainlit_api_key="${{ secrets.CHAINLIT_API_KEY }}"
+          export TF_VAR_openai_api_key="${{ secrets.OPENAI_API_KEY }}"
+          export TF_VAR_redis_port="${{ secrets.REDIS_PORT }}"
+          export TF_VAR_redis_db="${{ secrets.REDIS_DB }}"
+          export TF_VAR_redis_ttl="${{ secrets.REDIS_TTL }}"
           terraform plan -input=false -out=tfplan
 #          terraform apply -input=false tfplan
         env:
