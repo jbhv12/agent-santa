@@ -59,7 +59,7 @@ jobs:
 
       - name: Terraform DBG
         working-directory: infra/prod
-        run: terraform state show module.capstone.aws_cognito_user_pool.cognito_pool
+        run: terraform state list
         env:
           GOOGLE_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
