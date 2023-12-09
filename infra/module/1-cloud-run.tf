@@ -17,7 +17,7 @@ resource "google_cloud_run_service" "default" {
           value = local.timestamp
         }
         env {
-          name = "CHAINLIT_API_KEY"
+          name  = "CHAINLIT_API_KEY"
           value = var.chainlit_api_key
         }
         env {
@@ -66,8 +66,8 @@ resource "google_cloud_run_service" "default" {
         }
         resources {
           limits = {
-            cpu    = "1"
-            memory = "2Gi" # 256 MB, adjust as needed
+            cpu    = "8"
+            memory = "16Gi"
           }
         }
       }
@@ -83,9 +83,9 @@ resource "google_cloud_run_service" "default" {
 
 # IAM policy to make the service public
 resource "google_cloud_run_service_iam_policy" "public" {
-  location    = google_cloud_run_service.default.location
-  project     = google_cloud_run_service.default.project
-  service     = google_cloud_run_service.default.name
+  location = google_cloud_run_service.default.location
+  project  = google_cloud_run_service.default.project
+  service  = google_cloud_run_service.default.name
 
   policy_data = <<EOF
   {

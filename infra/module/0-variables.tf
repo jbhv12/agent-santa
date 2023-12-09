@@ -1,5 +1,5 @@
 variable "env" {
-  type    = string
+  type = string
 }
 variable "gcp_project_id" {
   type = string
@@ -8,19 +8,19 @@ variable "gcp_public_resources_bucket" {
   type = string
 }
 variable "aws_cognito_user_pool_id" {
-    type = string
+  type = string
 }
 variable "aws_cognito_client_id" {
-    type = string
+  type = string
 }
 variable "aws_cognito_domain" {
-    type = string
+  type = string
 }
 variable "aws_cognito_client_secret" {
-    type = string
+  type = string
 }
 variable "aws_cognito_redirect_url" {
-    type = string
+  type = string
 }
 variable "chainlit_auth_secret" {
   type = string
@@ -29,15 +29,15 @@ variable "chainlit_api_key" {
   type = string
 }
 variable "openai_api_key" {
-    type = string
+  type = string
 }
 variable "redis_port" {
-    type = string
+  type = string
 }
 
 variable "redis_db" {
-    type = string
+  type = string
 }
 variable "redis_ttl" {
-    type = string
+  type = string
 }

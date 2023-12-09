@@ -1,13 +1,13 @@
 resource "aws_cognito_user_pool" "cognito_pool" {
   name = "red-jingle-users"
 
-  username_attributes = ["email"]
+  username_attributes      = ["email"]
   auto_verified_attributes = ["email"]
 
   verification_message_template {
     default_email_option = "CONFIRM_WITH_CODE"
-    email_message = "Welcome to Red Jingles! Your verification code is {####}."
-    email_subject = "Verify Your Red Jingles Account"
+    email_message        = "Welcome to Red Jingles! Your verification code is {####}."
+    email_subject        = "Verify Your Red Jingles Account"
   }
 
   admin_create_user_config {
@@ -16,8 +16,8 @@ resource "aws_cognito_user_pool" "cognito_pool" {
 
   schema {
     attribute_data_type = "String"
-    name = "email"
-    required = true
+    name                = "email"
+    required            = true
     string_attribute_constraints {
       min_length = 0
       max_length = 2048
@@ -26,15 +26,20 @@ resource "aws_cognito_user_pool" "cognito_pool" {
 
   password_policy {
     temporary_password_validity_days = 7
-    minimum_length    = 8
-    require_lowercase = true
-    require_numbers   = true
-    require_symbols   = true
-    require_uppercase = true
+    minimum_length                   = 8
+    require_lowercase                = true
+    require_numbers                  = true
+    require_symbols                  = true
+    require_uppercase                = true
   }
 
   email_configuration {
     email_sending_account = "COGNITO_DEFAULT"
+  }
+  lifecycle {
+    ignore_changes = [
+      id
+    ]
   }
 }
 
@@ -55,11 +60,11 @@ resource "aws_cognito_user_pool_client" "client" {
   allowed_oauth_flows                  = ["code", "implicit"]
   allowed_oauth_scopes                 = ["phone", "email", "openid", "profile", "aws.cognito.signin.user.admin"]
 
-  callback_urls = ["https://red-jingles-service-m4nvd7pkta-ue.a.run.app/auth/oauth/cognito/callback", "http://localhost:1225/auth/oauth/cognito/callback", "http://localhost:8001/auth/callback", "http://localhost:1225/login-callback"]
+  callback_urls = ["https://personal-334605.el.r.appspot.com/auth/oauth/cognito/callback", "https://red-jingles-service-m4nvd7pkta-ue.a.run.app/auth/oauth/cognito/callback", "http://localhost:1225/auth/oauth/cognito/callback", "http://localhost:8001/auth/callback", "http://localhost:1225/login-callback"]
   logout_urls   = ["http://localhost:1225/logout"]
 
-  supported_identity_providers = ["COGNITO"]
-  default_redirect_uri = "https://red-jingles-service-m4nvd7pkta-ue.a.run.app/auth/oauth/cognito/callback"
+  supported_identity_providers  = ["COGNITO"]
+  default_redirect_uri          = "https://red-jingles-service-m4nvd7pkta-ue.a.run.app/auth/oauth/cognito/callback"
   prevent_user_existence_errors = "ENABLED"
 }
 
@@ -69,7 +74,7 @@ resource "aws_cognito_user_pool_domain" "domain" {
 }
 
 resource "aws_cognito_user_pool_ui_customization" "ui_customization" {
-  css        = ".label-customizable {font-weight: 400;}"
-  image_file = filebase64("logo.png")
+  css          = ".label-customizable {font-weight: 400;}"
+  image_file   = filebase64("logo.png")
   user_pool_id = aws_cognito_user_pool.cognito_pool.id
 }
