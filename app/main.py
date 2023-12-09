@@ -12,21 +12,21 @@ from agent import get_agent, get_welcome_message
 from constants import characters
 from chainlit import config as clconfig
 
-analyzer = AnalyzerEngine()
-@asynccontextmanager
-async def check_text(text: str):
-    pii_results = analyzer.analyze(text=text, language="en")
-    if pii_results:
-        response = await cl.AskActionMessage(
-            content="PII detected",
-            actions=[
-                cl.Action(name="continue", value="continue", label="✅ Continue"),
-                cl.Action(name="cancel", value="cancel", label="❌ Cancel"),
-            ],
-        ).send()
-        if response is None or response.get("value") == "cancel":
-            raise InterruptedError
-    yield
+# analyzer = AnalyzerEngine()
+# @asynccontextmanager
+# async def check_text(text: str):
+#     pii_results = analyzer.analyze(text=text, language="en")
+#     if pii_results:
+#         response = await cl.AskActionMessage(
+#             content="PII detected",
+#             actions=[
+#                 cl.Action(name="continue", value="continue", label="✅ Continue"),
+#                 cl.Action(name="cancel", value="cancel", label="❌ Cancel"),
+#             ],
+#         ).send()
+#         if response is None or response.get("value") == "cancel":
+#             raise InterruptedError
+#     yield
 
 
 if os.getenv("DISABLE_AUTH", "").lower() != "true":
@@ -73,11 +73,11 @@ async def on_chat_start():
 
 @cl.on_message
 async def main(message: cl.Message):
-    async with check_text(message.content):
-        agent = cl.user_session.get("agent")  # type: AgentExecutor
-        res = await cl.make_async(agent)({"input": message.content},
-                                         callbacks=[cl.LangchainCallbackHandler(stream_final_answer=True)])
-        await cl.Message(content=res["output"]).send()
+    # async with check_text(message.content):
+    agent = cl.user_session.get("agent")  # type: AgentExecutor
+    res = await cl.make_async(agent)({"input": message.content},
+                                     callbacks=[cl.LangchainCallbackHandler(stream_final_answer=True)])
+    await cl.Message(content=res["output"]).send()
 
 
 @cl.on_chat_resume
