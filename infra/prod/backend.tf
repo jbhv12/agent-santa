@@ -12,5 +12,5 @@ terraform {
     bucket = "jbhv12-personal"
     prefix = "terraform/state"
   }
-  required_version = "= 1.5.3"
+  required_version = "= 1.6.5"
 }
