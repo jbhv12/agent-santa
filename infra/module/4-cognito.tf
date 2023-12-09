@@ -25,6 +25,7 @@ resource "aws_cognito_user_pool" "cognito_pool" {
   }
 
   password_policy {
+    temporary_password_validity_days = 7
     minimum_length    = 8
     require_lowercase = true
     require_numbers   = true
@@ -63,7 +64,7 @@ resource "aws_cognito_user_pool_client" "client" {
 }
 
 resource "aws_cognito_user_pool_domain" "domain" {
-  domain       = "redjingles1112"
+  domain       = "redjingles25"
   user_pool_id = aws_cognito_user_pool.cognito_pool.id
 }
 
