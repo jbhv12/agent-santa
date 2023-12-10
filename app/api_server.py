@@ -1,12 +1,16 @@
-import httpx
-from fastapi import Depends, APIRouter
-from fastapi.security import OAuth2AuthorizationCodeBearer
-from dotenv import load_dotenv
-from langserve import add_routes
-from agent import get_agent
 import os
-from fastapi import FastAPI
-from fastapi import HTTPException, status
+import httpx
+
+from fastapi import Depends, APIRouter
+from fastapi.responses import RedirectResponse
+from fastapi import FastAPI, HTTPException, Request, status
+from fastapi.openapi.models import OAuthFlows as OAuthFlowsModel
+from fastapi.security import OAuth2
+from langserve import add_routes
+from dotenv import load_dotenv
+
+from agent import get_agent
+from constants import characters
 
 load_dotenv()
 
@@ -14,45 +18,48 @@ COGNITO_CLIENT_ID = os.getenv("COGNITO_CLIENT_ID")
 COGNITO_CLIENT_SECRET = os.getenv("COGNITO_CLIENT_SECRET")
 COGNITO_DOMAIN = os.getenv("COGNITO_DOMAIN")
 COGNITO_REDIRECT_URI = os.getenv("COGNITO_REDIRECT_URI")
-AUTHORITY = f"https://{COGNITO_DOMAIN}"
-print(COGNITO_REDIRECT_URI)
-# OAuth2 Configuration
-scopes = ["openid", "email"]
-oauth2_scheme = OAuth2AuthorizationCodeBearer(
-    authorizationUrl=f"https://{COGNITO_DOMAIN}/login?response_type=code&client_id={COGNITO_CLIENT_ID}&redirect_uri={COGNITO_REDIRECT_URI}&scope=" + " ".join(
-scopes),
-    tokenUrl=f"/auth/callback",
-    # tokenUrl=f"https://{COGNITO_DOMAIN}/oauth2/token",
-    refreshUrl=f"https://{COGNITO_DOMAIN}/oauth2/token",
-    scheme_name="cognito"
+COGNITO_URL = f"https://{COGNITO_DOMAIN}"
+ACCESS_TOKEN_URL = f"token"
+COGNITO_AUTHORIZE_URL = f"{COGNITO_URL}/login?response_type=code&client_id={COGNITO_CLIENT_ID}&redirect_uri={COGNITO_REDIRECT_URI}"
+SCOPES = {"email": "email", "openid": "openid"}
+
+auth_code_flow = OAuthFlowsModel(
+    authorizationCode={
+        "tokenUrl": ACCESS_TOKEN_URL,
+        "authorizationUrl": COGNITO_AUTHORIZE_URL,
+        "scopes": SCOPES,
+    }
 )
+oauth2_scheme = OAuth2(flows=auth_code_flow)
+
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
-    print("in get cur use")
-    pass
+    if not token.startswith('Bearer '):
+        token = 'Bearer ' + token
+    async with httpx.AsyncClient() as client:
+        response = await client.get(
+            f"{COGNITO_URL}/oauth2/userinfo", headers={"Authorization": f"{token}"}
+        )
+        response.raise_for_status()
+        user = response.json()
+        return user
 
 router = APIRouter(dependencies=[Depends(get_current_user)])
+for character in characters:
+    add_routes(router, get_agent("", character["name"]), disabled_endpoints=["playground"], path="/" + character["name"])
 app = FastAPI(
     title="LangChain Server",
     version="1.0",
     description="A simple API server using Langchain's Runnable interfaces",
-    # openapi_oauth2_configs={
-    #         "usePkceWithAuthorizationCodeGrant": True,
-    #         "clientId": COGNITO_CLIENT_ID,
-    #         "scopes": scopes,
-    #         "authorizationUrl": f"https://{COGNITO_DOMAIN}/login",
-    #         # "tokenUrl": f"https://{COGNITO_DOMAIN}/oauth2/token",
-    #         "tokenUrl": "/auth/callback"
-    #     }
 )
-
-add_routes(router, get_agent("", "Santa"), disabled_endpoints=["playground"], path="/openai")
 app.include_router(router)
 
-@app.get("/auth/callback")
-async def auth_callback(code: str):
-    # Exchange code for a token
-    token_url = f"https://{COGNITO_DOMAIN}/oauth2/token"
+
+@app.post("/token")
+async def get_token(request: Request):
+    form_data = await request.form()
+    code = form_data.get("code")
+    token_url = f"{COGNITO_URL}/oauth2/token"
     payload = {
         "grant_type": "authorization_code",
         "client_id": COGNITO_CLIENT_ID,
@@ -66,13 +73,14 @@ async def auth_callback(code: str):
 
     if response.status_code != 200:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication code")
+    return {"access_token": response.json()['access_token'], "token_type": "bearer"}
 
-    # Process the token (store it, use it for user session, etc.)
-    token_data = response.json()
-    # ...
-    access_token = "test"
-    return {"access_token": access_token, "token_type": "bearer"}
+
+@app.get("/")
+def redirect():
+    return RedirectResponse("/docs")
+
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="localhost", port=8001)
+    uvicorn.run(app, host="localhost", port=8080)
