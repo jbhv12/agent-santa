@@ -1,0 +1,24 @@
+runtime: custom
+env: flex
+network:
+  name: projects//global/networks/
+  subnetwork_name:
+  session_affinity: true
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 5
+  cool_down_period_sec: 180
+env_variables:
+  CHAINLIT_API_KEY:
+  CHAINLIT_AUTH_SECRET:
+  DISABLE_AUTH:
+  COGNITO_USER_POOL_ID:
+  COGNITO_CLIENT_ID:
+  COGNITO_DOMAIN:
+  COGNITO_CLIENT_SECRET:
+  COGNITO_REDIRECT_URI:
+  OPENAI_API_KEY:
+  REDIS_HOST:
+  REDIS_PORT:
+  REDIS_DB:
+  REDIS_TTL:
