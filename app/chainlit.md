@@ -19,4 +19,8 @@ _Best wishes for the new year's dream._
 We hope this warms your heart!   
 *Red Jingles is crafted with love and, of course, a touch of magical code. Ho Ho Ho!❤
 
-This project was made as a submission to [Serverless Holiday Hackathon 2023](https://hackathon.serverless.guru/). For contributing and more details, see [GitHub Repo](https://github.com/jbhv12/agent-santa), and Submission Paper.
+This project was made as a submission to [Serverless Holiday Hackathon 2023](https://hackathon.serverless.guru/).
+
+API is separately hosted [here](https://red-jingles-api-dot-personal-334605.el.r.appspot.com/docs).
+
+For contributing and more details, see [GitHub Repo](https://github.com/jbhv12/agent-santa), and Submission Paper.
