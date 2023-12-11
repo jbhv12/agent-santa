@@ -1,11 +1,9 @@
-# for main app
 langchain==0.0.348
 openai==1.3.8
 chainlit==0.7.700
 numexpr==2.8.7
 duckduckgo-search==3.8.5
 redis==5.0.1
-# additional requiremetns for api server
 langserve==0.0.34
 sse_starlette==1.8.2
 gunicorn==20.0.4
