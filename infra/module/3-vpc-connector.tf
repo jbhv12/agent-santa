@@ -18,3 +18,16 @@ module "vpc" {
     }
   ]
 }
+
+
+resource "google_vpc_access_connector" "central_serverless" {
+  name          = "central-serverless"
+  project       = var.gcp_project_id
+  region        = "asia-south1"
+  subnet {
+    name = module.vpc.subnets["asia-south1/serverless-subnet"].name
+  }
+  machine_type  = "e2-micro"
+  min_throughput = 200
+  max_throughput = 500
+}
