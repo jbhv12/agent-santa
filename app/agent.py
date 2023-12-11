@@ -40,9 +40,9 @@ def get_agent(session_id, personality="Santa"):
     }
 
     try:
-        redis_host = os.environ.get("REDIS_HOST", None)
-        redis_port = os.environ.get("REDIS_PORT", "6379")
-        redis_db = os.environ.get("REDIS_DB", "0")
+        redis_host = os.environ["REDIS_HOST"]
+        redis_port = os.environ["REDIS_PORT"]
+        redis_db = os.environ["REDIS_DB"]
         redis_ttl = int(os.environ.get("REDIS_TTL", 600))
         r = redis.Redis(host=redis_host, port=redis_port, db=redis_db)
         if not r.ping(): raise Exception()
