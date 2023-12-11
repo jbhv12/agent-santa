@@ -72,6 +72,11 @@ resource "google_cloud_run_service" "default" {
         }
       }
     }
+    metadata {
+      annotations = {
+        "run.googleapis.com/sessionAffinity" = true
+      }
+    }
   }
 
   traffic {

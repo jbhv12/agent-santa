@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 from agent import get_agent
 from constants import characters
 
-load_dotenv()
+# load_dotenv()
 
 COGNITO_CLIENT_ID = os.getenv("COGNITO_CLIENT_ID")
 COGNITO_CLIENT_SECRET = os.getenv("COGNITO_CLIENT_SECRET")
