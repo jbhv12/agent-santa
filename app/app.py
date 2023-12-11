@@ -41,8 +41,8 @@ if os.getenv("DISABLE_AUTH", "").lower() != "true":
 def rename(orig_author: str):
     current_character = cl.user_session.get("chat_profile")
     rename_dict = {
-        "AgentExecutor": "Albert Einstein",
-        "ChatOpenAI": "ChatOpenAI",
+        "AgentExecutor": "Agent",
+        "ChatOpenAI": "LLM",
         "Red Jingles": "Santa🎅"
     }
     for character in characters:
