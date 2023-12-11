@@ -23,4 +23,4 @@ This project was made as a submission to [Serverless Holiday Hackathon 2023](htt
 
 API is separately hosted [here](https://red-jingles-api-dot-personal-334605.el.r.appspot.com/docs).
 
-For contributing and more details, see [GitHub Repo](https://github.com/jbhv12/agent-santa), and Submission Paper.
+For contributing and more details, see [GitHub Repo](https://github.com/jbhv12/red-jingles), and Submission Paper.
