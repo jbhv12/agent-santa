@@ -65,7 +65,7 @@ async def chat_profile():
 @cl.on_chat_start
 async def on_chat_start():
     app_user = cl.user_session.get("user")
-    session_id = f'{app_user.username}:{cl.user_session.get("id")}'
+    session_id = '' if app_user is None else f'{app_user.username}:{cl.user_session.get("id")}'
     character = cl.user_session.get("chat_profile")
     agent = get_agent(session_id, personality=character)
     cl.user_session.set("agent", agent)
