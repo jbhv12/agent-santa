@@ -1,10 +1,12 @@
-# Project Name
+# Red Jingles
 
-Brief project description and its purpose.
+A state-of-the-art holiday theme based AI chatbot focusing on scalability, extensibility and real world applicability
 
 ## About
 
-A short description of what your project does, why it's useful, and any other relevant information.
+This project was made as a submission to [Serverless Holiday Hackathon 2023](https://hackathon.serverless.guru/).
+The world has witnessed AI's potential thanks to platforms like OpenAI. It's crucial that AI isn't just limited to tech experts but accessible to everyone.
+Red Jingles is our attempt to create a chatbot backed by LLM with a Christmas theme featuring Santa Claus, Snowman, and Elf.
 
 ## Table of Contents
 
@@ -14,73 +16,66 @@ A short description of what your project does, why it's useful, and any other re
 
 ## Check the Hosted Version
 
-[Link to Hosted App](https://your-hosted-app-link.com)
-
-Brief description or instructions on how to access and use the hosted version of your application.
+Application is hosted here: [Link to Hosted App](https://red-jingles.ue.r.appspot.com/)
+API is hosted here: 
 
 ## Quickstart on Local Machine with Docker
 
 1. Ensure you have Docker installed on your machine. If not, follow the [official Docker installation guide](https://docs.docker.com/get-docker/).
 
-2. Clone the repository:
+2. Run the container:
+   ```bash
+   docker run -p 1225:1225 -e DISABLE_AUTH=true jbhv12/red-jingles:latest
+   ```
 
-    ```bash
-    git clone https://github.com/your-username/your-repo.git
-    ```
-
-3. Navigate to the project directory:
-
-    ```bash
-    cd your-repo
-    ```
-
-4. Build the Docker image:
-
-    ```bash
-    docker build -t your-app-name .
-    ```
-
-5. Run the Docker container:
-
-    ```bash
-    docker run -p 8080:8080 your-app-name
-    ```
-
-    Replace `8080` with the desired port number if needed.
-
-6. Open your browser and go to [http://localhost:8080](http://localhost:8080) to view the app.
+3. Open your browser and go to [http://localhost:1225](http://localhost:1225) to view the app.
 
 ## Running from Code
 
 If you prefer running the app directly from the source code, follow these steps:
 
-1. Make sure you have [requirements](link-to-requirements) installed.
+1. Make sure you have python installed.
 
 2. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/your-repo.git
+    git clone https://github.com/jbhv12-12/red-jingles.git
     ```
 
 3. Navigate to the project directory:
 
     ```bash
-    cd your-repo
+    cd red-jingles/app
     ```
 
 4. Install dependencies:
 
     ```bash
-    npm install  # or any other command for your specific language
+    pip install -r requirements.txt
     ```
 
 5. Run the application:
 
     ```bash
-    npm start  # or any other command for your specific language
+    chainlit run ./app.py --port 1225 -w
     ```
+6. Open your browser and go to [http://localhost:1225](http://localhost:1225) to view the app.
 
-6. Open your browser and go to [http://localhost:your-port](http://localhost:your-port) to view the app.
+7. Run the API (optional)
+
+   ```bash
+   python api_server.py 
+   ```
+8. Open your browser and go to [http://localhost:8080](http://localhost:8080) to view the API documentation.
+
+## Using hosted APIs
+
+Application is hosted here: [Link to Hosted App](https://red-jingles-api-dot-red-jingles.ue.r.appspot.com/docs)
+
+1. Click on "Authorize" button on top right to authenticate yourself with your red-jingles credentials. 
+2. Leave all input fields empty as is.
+3. Enter your creds when prompted
+4. Try out any API from UI. Notice a token passed in each request after authentication.
 
 ## Contributing
 
