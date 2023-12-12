@@ -21,13 +21,13 @@ module "vpc" {
 
 
 resource "google_vpc_access_connector" "central_serverless" {
-  name          = "central-serverless"
-  project       = var.gcp_project_id
-  region        = var.gcp_region
+  name    = "central-serverless"
+  project = var.gcp_project_id
+  region  = var.gcp_region
   subnet {
     name = module.vpc.subnets["${var.gcp_region}/serverless-subnet"].name
   }
-  machine_type  = "e2-micro"
+  machine_type   = "e2-micro"
   min_throughput = 200
   max_throughput = 500
 }
