@@ -18,7 +18,7 @@ resource "google_app_engine_flexible_app_version" "chat_app" {
     #    min_idle_instances      = 1
     #    max_idle_instances      = 3
     cpu_utilization {
-      target_utilization = 0.5
+      target_utilization = 0.9
     }
   }
 

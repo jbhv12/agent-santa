@@ -25,7 +25,7 @@ API is hosted [here](https://red-jingles-api-dot-red-jingles.ue.r.appspot.com/do
 
 2. Run the container:
    ```bash
-   docker run -p 1225:1225 -e DISABLE_AUTH=true jbhv12/red-jingles:latest
+   docker run -p 1225:8080 -e DISABLE_AUTH=true -e OPENAI_API_KEY=<YOUR_OPENAI_API_KEY> jbhv12/red-jingles:latest
    ```
 
 3. Open your browser and go to [http://localhost:1225](http://localhost:1225) to view the app.
