@@ -3,14 +3,14 @@ provider "aws" {
 }
 
 provider "google" {
-  project = "personal-334605"
+  project = "red-jingles"
   region  = "us-east1"
 }
 
 terraform {
   backend "gcs" {
-    bucket = "jbhv12-personal"
-    prefix = "terraform/state"
+    bucket = "rj-tf-state"
+    prefix = "terraform"
   }
   required_version = "= 1.6.5"
 }

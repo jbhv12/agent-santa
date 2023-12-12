@@ -7,12 +7,12 @@ resource "google_service_account" "terraform_account" {
 
 # Grant the service account editor role to manage most resources
 resource "google_project_iam_member" "terraform_account_editor" {
-  project = "personal-334605"
+  project = var.gcp_project_id
   role    = "roles/editor"
   member  = "serviceAccount:${google_service_account.terraform_account.email}"
 }
 resource "google_project_iam_member" "terraform_account_run_admin" {
-  project = "personal-334605"
+  project = var.gcp_project_id
   role    = "roles/run.admin"
   member  = "serviceAccount:${google_service_account.terraform_account.email}"
 }
