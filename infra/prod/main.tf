@@ -5,6 +5,7 @@ module "capstone" {
   gcp_region                  = var.gcp_region
   gcp_public_resources_bucket = var.gcp_public_resources_bucket
 
+  serp_api_key         = var.serp_api_key
   chainlit_auth_secret = var.chainlit_auth_secret
   chainlit_api_key     = var.chainlit_api_key
 

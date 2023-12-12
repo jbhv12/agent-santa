@@ -9,7 +9,9 @@ variable "gcp_region" {
 variable "gcp_public_resources_bucket" {
   type = string
 }
-
+variable "serp_api_key" {
+  type = string
+}
 variable "redis_port" {
   type    = string
   default = "6379"

@@ -26,6 +26,7 @@ resource "google_app_engine_flexible_app_version" "chat_app" {
   env_variables = {
     CHAINLIT_API_KEY      = var.chainlit_api_key
     CHAINLIT_AUTH_SECRET  = var.chainlit_auth_secret
+    SERPAPI_API_KEY       = var.serp_api_key
     DISABLE_AUTH          = false
     COGNITO_USER_POOL_ID  = aws_cognito_user_pool.cognito_pool.id
     COGNITO_CLIENT_ID     = aws_cognito_user_pool_client.client.id

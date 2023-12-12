@@ -16,6 +16,9 @@ variable "chainlit_auth_secret" {
 variable "chainlit_api_key" {
   type = string
 }
+variable "serp_api_key" {
+  type = string
+}
 variable "openai_api_key" {
   type = string
 }
