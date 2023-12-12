@@ -1,4 +1,4 @@
-# Red Jingles
+# 🎀🔔 Red Jingles 🎀🔔
 
 A state-of-the-art holiday theme based AI chatbot focusing on scalability, extensibility and real world applicability
 

@@ -1,5 +1,5 @@
 # Untitled
-# 🔔🔔 Welcome to Red Jingles! 🔔🔔  
+# 🎀🔔 Welcome to Red Jingles! 🎀🔔 
   
 This Christmas, witness the magic as Santa goes digital, bringing you the dazzling world of Red Jingles! Our chatbot is your enchanted stocking, where every query becomes a wish, swiftly fulfilled by Santa and team!  
   
