@@ -4,6 +4,9 @@ variable "env" {
 variable "gcp_project_id" {
   type = string
 }
+variable "gcp_region" {
+  type = string
+}
 variable "gcp_public_resources_bucket" {
   type = string
 }

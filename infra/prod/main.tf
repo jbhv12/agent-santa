@@ -2,6 +2,7 @@ module "capstone" {
   source                      = "../module"
   env                         = var.env
   gcp_project_id              = var.gcp_project_id
+  gcp_region                  = var.gcp_region
   gcp_public_resources_bucket = var.gcp_public_resources_bucket
 
   chainlit_auth_secret = var.chainlit_auth_secret

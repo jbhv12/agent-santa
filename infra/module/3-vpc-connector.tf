@@ -14,7 +14,7 @@ module "vpc" {
     {
       subnet_name   = "serverless-subnet"
       subnet_ip     = "10.10.10.0/28"
-      subnet_region = "asia-south1"
+      subnet_region = var.gcp_region
     }
   ]
 }
@@ -23,9 +23,9 @@ module "vpc" {
 resource "google_vpc_access_connector" "central_serverless" {
   name          = "central-serverless"
   project       = var.gcp_project_id
-  region        = "asia-south1"
+  region        = var.gcp_region
   subnet {
-    name = module.vpc.subnets["asia-south1/serverless-subnet"].name
+    name = module.vpc.subnets["${var.gcp_region}/serverless-subnet"].name
   }
   machine_type  = "e2-micro"
   min_throughput = 200
