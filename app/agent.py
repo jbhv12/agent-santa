@@ -7,6 +7,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain.tools.ddg_search import DuckDuckGoSearchRun
 from langchain.agents import AgentType, Tool, initialize_agent
 from langchain.prompts import MessagesPlaceholder
+from langchain.utilities.serpapi import SerpAPIWrapper
 from langchain_core.messages import SystemMessage
 from langchain.memory import ConversationBufferMemory, RedisChatMessageHistory
 from constants import *
@@ -14,7 +15,7 @@ from constants import *
 
 def get_agent(session_id, personality="Santa"):
     llm = ChatOpenAI(streaming=True, temperature=0, model="gpt-3.5-turbo-0613")
-    search = DuckDuckGoSearchRun()
+    search = SerpAPIWrapper()
     llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=True)
     tools = [
         Tool(
