@@ -16,8 +16,8 @@ Red Jingles is our attempt to create a chatbot backed by LLM with a Christmas th
 
 ## Check the Hosted Version
 
-Application is hosted here: [Link to Hosted App](https://red-jingles.ue.r.appspot.com/)
-API is hosted here: 
+Application is hosted [here](https://red-jingles.ue.r.appspot.com/)
+API is hosted [here](https://red-jingles-api-dot-red-jingles.ue.r.appspot.com/docs)
 
 ## Quickstart on Local Machine with Docker
 
@@ -70,7 +70,7 @@ If you prefer running the app directly from the source code, follow these steps:
 
 ## Using hosted APIs
 
-Application is hosted here: [Link to Hosted App](https://red-jingles-api-dot-red-jingles.ue.r.appspot.com/docs)
+Application is hosted [here](https://red-jingles-api-dot-red-jingles.ue.r.appspot.com/docs)
 
 1. Click on "Authorize" button on top right to authenticate yourself with your red-jingles credentials. 
 2. Leave all input fields empty as is.
