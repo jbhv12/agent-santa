@@ -11,10 +11,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app/
 COPY .chainlit /app/.chainlit
 
-# Patch chainlit library to support cognito auth
-COPY patches/oauth_providers.py /usr/local/lib/python3.11/site-packages/chainlit/
-COPY patches/base.py /usr/local/lib/python3.11/site-packages/chainlit/client/
-
 EXPOSE 8080
 
 CMD ["chainlit", "run", "./app.py", "--port", "8080"]

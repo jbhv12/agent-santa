@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from typing import Optional, Dict
 
 import chainlit as cl
-from chainlit.client.base import ConversationDict
+from chainlit.types import ThreadDict
 from langchain.agents import AgentExecutor
 from chainlit.server import app
 
@@ -32,7 +32,7 @@ async def check_text(text: str):
 if os.getenv("DISABLE_AUTH", "").lower() != "true":
     @cl.oauth_callback
     def oauth_callback(provider_id: str, token: str, raw_user_data: Dict[str, str],
-                       default_app_user: cl.AppUser) -> Optional[cl.AppUser]:
+                       default_app_user: cl.User) -> Optional[cl.User]:
         return default_app_user
 
 
@@ -65,7 +65,8 @@ async def chat_profile():
 @cl.on_chat_start
 async def on_chat_start():
     app_user = cl.user_session.get("user")
-    session_id = '' if app_user is None else f'{app_user.username}:{cl.user_session.get("id")}'
+    session_id = '' if app_user is None else f'{app_user.id}:{cl.user_session.get("id")}'
+    print("starting chat: " + session_id)
     character = cl.user_session.get("chat_profile")
     agent = get_agent(session_id, personality=character)
     cl.user_session.set("agent", agent)
@@ -84,19 +85,19 @@ async def main(message: cl.Message):
 
 # Handler for resuming chat
 @cl.on_chat_resume
-async def on_chat_resume(conversation: ConversationDict):
+async def on_chat_resume(thread: ThreadDict):
     app_user = cl.user_session.get("user")
-    session_id = f'{app_user.username}:{conversation["id"]}'
+    session_id = f'{app_user.id}:{cl.user_session.get("id")}'
+    print("resumeing chat: " + session_id)
     agent = get_agent(session_id)
     cl.user_session.set("agent", agent)
     memory = agent.memory
-    root_messages = [m for m in conversation["messages"] if m["parentId"] is None]
+    root_messages = [m for m in thread["steps"] if m["parentId"] == None]
     for message in root_messages:
-        if message["authorIsUser"]:
-            memory.chat_memory.add_user_message(message["content"])
+        if message["type"] == "USER_MESSAGE":
+            memory.chat_memory.add_user_message(message["output"])
         else:
-            memory.chat_memory.add_ai_message(message["content"])
-
+            memory.chat_memory.add_ai_message(message["output"])
 
 # Endpoint for readiness check used by GAE
 @app.get('/readiness_check')
