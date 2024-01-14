@@ -3,3 +3,5 @@
 /app/.env
 ./.idea
 ./app/.env
+__pycache__/
+*.pyc

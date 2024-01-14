@@ -10,7 +10,7 @@ module "capstone" {
   chainlit_api_key     = var.chainlit_api_key
 
   openai_api_key = var.openai_api_key
-
+    
   redis_port = var.redis_port
   redis_db   = var.redis_db
   redis_ttl  = var.redis_ttl

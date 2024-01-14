@@ -60,11 +60,20 @@ resource "aws_cognito_user_pool_client" "client" {
   allowed_oauth_flows                  = ["code", "implicit"]
   allowed_oauth_scopes                 = ["phone", "email", "openid", "profile", "aws.cognito.signin.user.admin"]
 
-  callback_urls = ["http://localhost:1225/auth/oauth/cognito/callback", "http://localhost:8001/auth/callback", "https://red-jingles.ue.r.appspot.com/auth/oauth/cognito/callback", "https://red-jingles-api-dot-red-jingles.ue.r.appspot.com/docs/oauth2-redirect"]
-  logout_urls   = ["https://red-jingles.ue.r.appspot.com/"]
+  callback_urls = [
+    "http://localhost:1225/auth/oauth/aws-cognito/callback",
+    "https://red-jingles-zo5w7qkf4a-ue.a.run.app/auth/oauth/aws-cognito/callback",
+    "https://red-jingles-service-zo5w7qkf4a-ue.a.run.app/auth/oauth/aws-cognito/callback",
+
+    "https://red-jingles-api-dot-red-jingles.ue.r.appspot.com/docs/oauth2-redirect",
+    "https://red-jingles.ue.r.appspot.com/docs/oauth2-redirect",
+  ]
+  logout_urls = [
+    "https://red-jingles-zo5w7qkf4a-ue.a.run.app/"
+  ]
 
   supported_identity_providers  = ["COGNITO"]
-  default_redirect_uri          = "https://red-jingles.ue.r.appspot.com/auth/oauth/cognito/callback"
+  default_redirect_uri          = "https://red-jingles-zo5w7qkf4a-ue.a.run.app/auth/oauth/aws-cognito/callback"
   prevent_user_existence_errors = "ENABLED"
 }
 
