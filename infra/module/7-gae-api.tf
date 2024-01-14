@@ -1,6 +1,6 @@
 resource "google_app_engine_standard_app_version" "api_app" {
   project        = var.gcp_project_id
-  service        = "red-jingles-api"
+  service        = "default"
   version_id     = formatdate("YY-MM-DD-hh-mm", timestamp())
   runtime        = "python311"
   instance_class = "F1"
@@ -14,7 +14,7 @@ resource "google_app_engine_standard_app_version" "api_app" {
   }
   automatic_scaling {
     min_idle_instances = 0
-    max_idle_instances = 3
+    max_idle_instances = 2
   }
 
  vpc_access_connector {
@@ -27,7 +27,7 @@ resource "google_app_engine_standard_app_version" "api_app" {
     COGNITO_CLIENT_ID     = aws_cognito_user_pool_client.client.id
     COGNITO_DOMAIN        = "${aws_cognito_user_pool_domain.domain.domain}.auth.us-west-2.amazoncognito.com"
     COGNITO_CLIENT_SECRET = aws_cognito_user_pool_client.client.client_secret
-    COGNITO_REDIRECT_URI  = "https://red-jingles-api-dot-red-jingles.ue.r.appspot.com/docs/oauth2-redirect"
+    COGNITO_REDIRECT_URI  = "https://red-jingles.ue.r.appspot.com/docs/oauth2-redirect"
     OPENAI_API_KEY        = var.openai_api_key
     SERPAPI_API_KEY       = var.serp_api_key
   }

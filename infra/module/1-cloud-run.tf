@@ -2,7 +2,7 @@ locals {
  timestamp = timestamp()
 }
 resource "google_cloud_run_service" "default" {
- name     = "red-jingles-service"
+ name     = "red-jingles"
  location = "us-east1"
 
  template {
@@ -38,11 +38,15 @@ resource "google_cloud_run_service" "default" {
        }
        env {
          name  = "CHAINLIT_URL"
-         value = "https://red-jingles-service-zo5w7qkf4a-ue.a.run.app"
+         value = "https://red-jingles-zo5w7qkf4a-ue.a.run.app"
        }
        env {
          name  = "OPENAI_API_KEY"
          value = var.openai_api_key
+       }
+       env {
+        name = "SERPAPI_API_KEY"
+        value = var.serp_api_key
        }
        env {
          name  = "REDIS_HOST"
