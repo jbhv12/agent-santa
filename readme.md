@@ -16,17 +16,21 @@ Red Jingles is our attempt to create a chatbot backed by LLM with a Christmas th
 
 ## Check the Hosted Version
 
-Application is hosted [here](https://red-jingles.ue.r.appspot.com/)
-API is hosted [here](https://red-jingles-api-dot-red-jingles.ue.r.appspot.com/docs)
+Application is hosted [here](https://red-jingles-zo5w7qkf4a-ue.a.run.app)
+API is hosted [here](https:///red-jingles.ue.r.appspot.com/docs)
 
 ## Quickstart on Local Machine with Docker
 
 1. Ensure you have Docker installed on your machine. If not, follow the [official Docker installation guide](https://docs.docker.com/get-docker/).
 
 2. Run the container:
-   ```bash
-   docker run -p 1225:8080 -e DISABLE_AUTH=true -e OPENAI_API_KEY=<YOUR_OPENAI_API_KEY> jbhv12/red-jingles:latest
-   ```
+    ```bash
+    docker run -p 1225:8080 \
+    -e CHAINLIT_URL=http://localhost:1225 \
+    -e DISABLE_AUTH=true \
+    -e OPENAI_API_KEY=<YOUR_OPENAI_API_KEY> \
+    jbhv12/red-jingles:latest
+    ```
 
 3. Open your browser and go to [http://localhost:1225](http://localhost:1225) to view the app.
 
@@ -70,7 +74,7 @@ If you prefer running the app directly from the source code, follow these steps:
 
 ## Using hosted APIs
 
-Application is hosted [here](https://red-jingles-api-dot-red-jingles.ue.r.appspot.com/docs)
+Application is hosted [here](https:///red-jingles.ue.r.appspot.com/docs)
 
 1. Click on "Authorize" button on top right to authenticate yourself with your red-jingles credentials. 
 2. Leave all input fields empty as is.
