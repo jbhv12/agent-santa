@@ -4,22 +4,19 @@ A state-of-the-art holiday theme based AI chatbot focusing on scalability, exten
 
 ## About
 
-This project was made as a submission to [Serverless Holiday Hackathon 2023](https://hackathon.serverless.guru/).
+This project was made as a submission to [Serverless Holiday Hackathon 2023](https://hackathon.serverless.guru/). Read the full submission article [here](https://dev.to/jbhv12/red-jingles-a-holiday-theme-based-ai-chatbot-5fl8).
+
 The world has witnessed AI's potential thanks to platforms like OpenAI. It's crucial that AI isn't just limited to tech experts but accessible to everyone.
 Red Jingles is our attempt to create a chatbot backed by LLM with a Christmas theme featuring Santa Claus, Snowman, and Elf.
 
-## Table of Contents
+## Getting Started
 
-- [Check the Hosted Version](#check-the-hosted-version)
-- [Quickstart on Local Machine with Docker](#quickstart-on-local-machine-with-docker)
-- [Running from Code](#running-from-code)
-
-## Check the Hosted Version
+### Try the Hosted Version
 
 Application is hosted [here](https://red-jingles-zo5w7qkf4a-ue.a.run.app)
 API is hosted [here](https:///red-jingles.ue.r.appspot.com/docs)
 
-## Quickstart on Local Machine with Docker
+### Running with Docker
 
 1. Ensure you have Docker installed on your machine. If not, follow the [official Docker installation guide](https://docs.docker.com/get-docker/).
 
@@ -34,7 +31,7 @@ API is hosted [here](https:///red-jingles.ue.r.appspot.com/docs)
 
 3. Open your browser and go to [http://localhost:1225](http://localhost:1225) to view the app.
 
-## Running from Code
+### Running from Code
 
 If you prefer running the app directly from the source code, follow these steps:
 
@@ -74,16 +71,16 @@ If you prefer running the app directly from the source code, follow these steps:
 
 ## Using hosted APIs
 
-Application is hosted [here](https:///red-jingles.ue.r.appspot.com/docs)
+API is hosted [here](https:///red-jingles.ue.r.appspot.com/docs)
 
 1. Click on "Authorize" button on top right to authenticate yourself with your red-jingles credentials. 
 2. Leave all input fields empty as is.
 3. Enter your creds when prompted
 4. Try out any API from UI. Notice a token passed in each request after authentication.
 
-## Contributing
+## Architecture and Documentation
 
-If you'd like to contribute to this project, please follow the [Contributing Guidelines](CONTRIBUTING.md).
+Read the full submission article [here](https://dev.to/jbhv12/red-jingles-a-holiday-theme-based-ai-chatbot-5fl8).
 
 ## License
 
